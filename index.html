@@ -662,6 +662,12 @@ body:not(.theme-light) #clock-analog div:last-child {
                 </button>
                 
             </div>
+            <div class="cat-items">
+                <button class="nav-item lazy-frame" data-src="https://script.google.com/macros/s/AKfycbxYgB-5Rnh-i9XMvs_LxkwGK6PATlwso5nVAR7VQ4CCj1o2-kW4oS8B7rNyu4WVwTfN9A/exec">
+                    <span class="nav-item-dot"></span><span class="nav-item-text">MMPT</span>
+                </button>
+                
+            </div>
         </div>
         <div class="cat-group" id="cat-dev-mode">
             <button class="cat-toggle" data-tooltip="Dev Mode">
@@ -1196,7 +1202,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (timeEl) timeEl.textContent = String(H).padStart(2,'0') + ':' + String(M).padStart(2,'0') + ':' + String(S).padStart(2,'0');
     }
     updateClock();
-    setInterval(updateClock, 50);
+   function animateClock() {
+        updateClock();
+        requestAnimationFrame(animateClock);
+    }
+    requestAnimationFrame(animateClock); // เริ่มต้นการทำงาน
 
     preloadFrames();
 });
