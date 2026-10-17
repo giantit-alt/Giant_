@@ -1856,31 +1856,49 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* ─── ดึงข้อมูลจากชีต ───────────────────────────────────────────
        • เปิดผ่าน Apps Script (/exec)  → google.script.run
-       • เปิดจาก GitHub Pages / โฮสต์อื่น → เรียก API ของ Web App ด้านล่าง (JSONP)
+       • เปิดจาก GitHub Pages / โฮสต์อื่น → โหลด Web App ใน iframe ซ่อน (ใช้การล็อกอิน Google ของผู้ใช้
+         แบบเดียวกับเมนูอื่น ๆ) แล้วรับข่าว+วันหยุดกลับมาทาง postMessage
        • เปิดไฟล์ในเครื่อง (file://)      → ใช้ข้อมูลตัวอย่าง (DEMO) เพื่อทดสอบหน้าตาเท่านั้น
        ใส่ URL ของ Web App (ที่ลงท้ายด้วย /exec) ตรงนี้ ↓ */
-    var PORTAL_API_URL = 'https://script.google.com/macros/s/AKfycbycFCUZJ_yrGOLSbXlxNq5YNymE3KIxgjoTtXyYUZxZXFeMySoEfpdSgvhx2RIqlJ3-/exec';
+    var PORTAL_API_URL = 'https://script.google.com/a/macros/giantinterholding.co.th/s/AKfycbycFCUZJ_yrGOLSbXlxNq5YNymE3KIxgjoTtXyYUZxZXFeMySoEfpdSgvhx2RIqlJ3-/exec';
 
     var IN_GAS  = !!(window.google && google.script && google.script.run);
     var IS_FILE = location.protocol === 'file:';
 
-    function apiJsonp(api, params, ok, fail) {
-        var cb = '__gihApi' + Date.now() + Math.floor(Math.random() * 1e4);
-        var s = document.createElement('script');
-        var done = false;
-        var cleanup = function() { done = true; try { delete window[cb]; } catch (e) { window[cb] = undefined; } s.remove(); };
-        var timer = setTimeout(function() { if (!done) { cleanup(); fail('หมดเวลาเชื่อมต่อ API'); } }, 20000);
-        window[cb] = function(res) {
-            clearTimeout(timer); cleanup();
-            if (res && res.ok) ok(res.data); else fail(res && res.error || 'API error');
-        };
-        s.onerror = function() { clearTimeout(timer); if (!done) { cleanup(); fail('เรียก API ไม่ได้ (ตรวจ URL และสิทธิ์การเข้าถึง Web App)'); } };
-        var q = Object.keys(params || {}).map(function(k) { return '&' + k + '=' + encodeURIComponent(params[k]); }).join('');
-        s.src = PORTAL_API_URL + (PORTAL_API_URL.indexOf('?') < 0 ? '?' : '&') + 'api=' + api + q + '&callback=' + cb;
-        document.head.appendChild(s);
+    var bridgePromise = null;
+    function bridgeLoad(force) {
+        if (bridgePromise && !force) return bridgePromise;
+        bridgePromise = new Promise(function(resolve, reject) {
+            var frame = document.createElement('iframe');
+            frame.setAttribute('aria-hidden', 'true');
+            frame.style.cssText = 'position:absolute;width:1px;height:1px;border:0;left:-9999px;top:-9999px;visibility:hidden';
+            var done = false;
+            var finish = function() {
+                done = true; clearTimeout(timer);
+                window.removeEventListener('message', onMsg);
+                setTimeout(function() { frame.remove(); }, 0);
+            };
+            var onMsg = function(e) {
+                var d = e.data;
+                if (!d || d.gihBridge !== 1) return;
+                if (!/(\.googleusercontent\.com|\.google\.com)$/.test(String(e.origin).replace(/:\d+$/, '')) && !/^http:\/\/localhost/.test(e.origin)) return;
+                if (done) return;
+                finish();
+                if (d.ok) resolve(d); else reject(d.error || 'เกิดข้อผิดพลาดที่เซิร์ฟเวอร์');
+            };
+            var timer = setTimeout(function() {
+                if (done) return; finish();
+                reject('เชื่อมต่อระบบข่าวไม่ได้ — กรุณาล็อกอินบัญชี Google ของบริษัทในเบราว์เซอร์นี้ แล้วกดรีเฟรช');
+            }, 25000);
+            window.addEventListener('message', onMsg);
+            frame.src = PORTAL_API_URL + (PORTAL_API_URL.indexOf('?') < 0 ? '?' : '&') + 'bridge=1' + (force ? '&force=1' : '') + '&t=' + Date.now();
+            document.body.appendChild(frame);
+        });
+        bridgePromise.catch(function() { bridgePromise = null; });
+        return bridgePromise;
     }
 
-    // fn: ชื่อฟังก์ชันใน Code.gs | api: ชื่อ API | demo: ฟังก์ชันคืนข้อมูลตัวอย่าง
+    // fn: ชื่อฟังก์ชันใน Code.gs | api: 'news' หรือ 'holidays' | demo: ฟังก์ชันคืนข้อมูลตัวอย่าง
     function fetchData(fn, api, opts, ok, fail) {
         opts = opts || {};
         if (IN_GAS) {
@@ -1888,7 +1906,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (opts.force && opts.clearFn) run.withSuccessHandler(function() { google.script.run.withSuccessHandler(ok).withFailureHandler(fail)[fn](); })[opts.clearFn]();
             else run.withSuccessHandler(ok)[fn]();
         } else if (PORTAL_API_URL) {
-            apiJsonp(api, opts.force ? { force: 1 } : {}, ok, fail);
+            bridgeLoad(!!opts.force).then(function(d) {
+                if (api === 'holidays' && d.holidayError) fail(d.holidayError);
+                else ok(api === 'news' ? d.news : d.holidays);
+            }, function(err) { fail(err); });
         } else if (IS_FILE && opts.demo) {
             setTimeout(function() { ok(opts.demo()); }, 300);
         } else {
@@ -2015,7 +2036,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderNewsFilters(); renderNewsList();
     });
     document.getElementById('news-close').addEventListener('click', function() { setNewsOpen(false, true); });
-    document.getElementById('news-reload').addEventListener('click', loadNews);
+    document.getElementById('news-reload').addEventListener('click', function() { bridgePromise = null; loadNews(); });
     newsFab.addEventListener('click', function() { setNewsOpen(true, true); });
     document.getElementById('nm-close').addEventListener('click', closeNewsModal);
     document.getElementById('nm-ok').addEventListener('click', closeNewsModal);
@@ -2332,7 +2353,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadHolidays();   // โหลดล่วงหน้าเพื่อแสดงจุดแดงบนปุ่มเมื่อใกล้วันหยุด
 
     loadNews();
-    setInterval(function() { if (welcomeSlider.style.display !== 'none') loadNews(); }, 5 * 60 * 1000);
+    setInterval(function() { if (welcomeSlider.style.display !== 'none') { bridgePromise = null; loadNews(); } }, 5 * 60 * 1000);
 
     preloadFrames();
 });
