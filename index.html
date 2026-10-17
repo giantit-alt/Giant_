@@ -1899,7 +1899,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadNews() {
         fetchData('getNews', 'news', { demo: function() { return DEMO_NEWS; } }, renderNews, function(err) {
             console.warn('[News] โหลดข่าวไม่สำเร็จ:', err);
-            renderNews([]);
+            newsData = [];
+            document.getElementById('news-count').textContent = '!';
+            document.getElementById('news-updated').textContent = 'โหลดข่าวไม่สำเร็จ';
+            newsFilters.innerHTML = '';
+            newsList.innerHTML = '<div class="news-empty" style="color:#b91c1c;line-height:1.7">โหลดข่าวไม่สำเร็จ<br><span style="color:#94a8b8">' + esc(err) + '</span></div>';
+            newsPanel.classList.add('show'); newsFab.classList.remove('show'); slide1.classList.add('news-open');
         });
     }
 
