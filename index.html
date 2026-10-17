@@ -1760,7 +1760,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var newsFilters= document.getElementById('news-filters');
     var newsModal  = document.getElementById('news-modal');
 
-    // ข้อมูลตัวอย่าง — ใช้เฉพาะตอนเปิดไฟล์นอก GAS (ทดสอบหน้าตา)
+    // ข้อมูลตัวอย่าง — ใช้เฉพาะตอนเปิดไฟล์ในเครื่อง (file://) เพื่อทดสอบหน้าตา · บน GitHub/เว็บจริงจะไม่แสดง
     var DEMO_NEWS = [
         { id: 1, date: new Date().toISOString(), title: 'ปิดปรับปรุงระบบ Stock ชั่วคราว คืนวันเสาร์ 22:00–23:00', body: 'ทีม IT จะอัปเดตฐานข้อมูลระบบ Stock R9–R12 ระหว่างเวลาดังกล่าว\nกรุณาบันทึกงานให้เรียบร้อยก่อนเวลา', cat: 'ด่วน', pinned: true, link: '' },
         { id: 2, date: new Date(Date.now() - 864e5).toISOString(), title: 'เปิดใช้งานระบบ MMPT Tag Match QC', body: 'ระบบสแกน Tag Match สำหรับลูกค้า MMPT พร้อมใช้งานแล้ว ที่เมนู Scanner › MMPT', cat: 'อัปเดตระบบ', pinned: false, link: '' },
@@ -1854,15 +1854,53 @@ document.addEventListener('DOMContentLoaded', function() {
         setNewsOpen(pref !== null ? pref : window.innerWidth >= 1440);
     }
 
-    function loadNews() {
-        if (window.google && google.script && google.script.run) {
-            google.script.run
-                .withSuccessHandler(renderNews)
-                .withFailureHandler(function(err) { console.warn('getNews error:', err); })
-                .getNews();
+    /* ─── ดึงข้อมูลจากชีต ───────────────────────────────────────────
+       • เปิดผ่าน Apps Script (/exec)  → google.script.run
+       • เปิดจาก GitHub Pages / โฮสต์อื่น → เรียก API ของ Web App ด้านล่าง (JSONP)
+       • เปิดไฟล์ในเครื่อง (file://)      → ใช้ข้อมูลตัวอย่าง (DEMO) เพื่อทดสอบหน้าตาเท่านั้น
+       ใส่ URL ของ Web App (ที่ลงท้ายด้วย /exec) ตรงนี้ ↓ */
+    var PORTAL_API_URL = '';
+
+    var IN_GAS  = !!(window.google && google.script && google.script.run);
+    var IS_FILE = location.protocol === 'file:';
+
+    function apiJsonp(api, params, ok, fail) {
+        var cb = '__gihApi' + Date.now() + Math.floor(Math.random() * 1e4);
+        var s = document.createElement('script');
+        var done = false;
+        var cleanup = function() { done = true; try { delete window[cb]; } catch (e) { window[cb] = undefined; } s.remove(); };
+        var timer = setTimeout(function() { if (!done) { cleanup(); fail('หมดเวลาเชื่อมต่อ API'); } }, 20000);
+        window[cb] = function(res) {
+            clearTimeout(timer); cleanup();
+            if (res && res.ok) ok(res.data); else fail(res && res.error || 'API error');
+        };
+        s.onerror = function() { clearTimeout(timer); if (!done) { cleanup(); fail('เรียก API ไม่ได้ (ตรวจ URL และสิทธิ์การเข้าถึง Web App)'); } };
+        var q = Object.keys(params || {}).map(function(k) { return '&' + k + '=' + encodeURIComponent(params[k]); }).join('');
+        s.src = PORTAL_API_URL + (PORTAL_API_URL.indexOf('?') < 0 ? '?' : '&') + 'api=' + api + q + '&callback=' + cb;
+        document.head.appendChild(s);
+    }
+
+    // fn: ชื่อฟังก์ชันใน Code.gs | api: ชื่อ API | demo: ฟังก์ชันคืนข้อมูลตัวอย่าง
+    function fetchData(fn, api, opts, ok, fail) {
+        opts = opts || {};
+        if (IN_GAS) {
+            var run = google.script.run.withFailureHandler(function(e) { fail(e && e.message ? e.message : e); });
+            if (opts.force && opts.clearFn) run.withSuccessHandler(function() { google.script.run.withSuccessHandler(ok).withFailureHandler(fail)[fn](); })[opts.clearFn]();
+            else run.withSuccessHandler(ok)[fn]();
+        } else if (PORTAL_API_URL) {
+            apiJsonp(api, opts.force ? { force: 1 } : {}, ok, fail);
+        } else if (IS_FILE && opts.demo) {
+            setTimeout(function() { ok(opts.demo()); }, 300);
         } else {
-            renderNews(DEMO_NEWS);
+            fail('ยังไม่ได้ตั้งค่า PORTAL_API_URL ใน index.html');
         }
+    }
+
+    function loadNews() {
+        fetchData('getNews', 'news', { demo: function() { return DEMO_NEWS; } }, renderNews, function(err) {
+            console.warn('[News] โหลดข่าวไม่สำเร็จ:', err);
+            renderNews([]);
+        });
     }
 
     /* ─── NEWS MODAL v2: ภาพประกอบ + แกลเลอรี + ตัวละคร ─── */
@@ -2150,16 +2188,11 @@ document.addEventListener('DOMContentLoaded', function() {
         holLoading = true;
         var btn = document.getElementById('hv-reload'); btn.disabled = true;
         var done = function(list) { btn.disabled = false; applyHolidays(list); };
-        if (window.google && google.script && google.script.run) {
-            var run = google.script.run.withSuccessHandler(done).withFailureHandler(function(err) {
-                btn.disabled = false; holLoading = false;
-                document.getElementById('hv-content').innerHTML = '<div class="hv-card hv-empty">โหลดวันหยุดไม่สำเร็จ: ' + esc(err && err.message ? err.message : err) + '</div>';
-            });
-            if (force) run.withSuccessHandler(function() { google.script.run.withSuccessHandler(done).getHolidays(); }).clearHolidayCache();
-            else run.getHolidays();
-        } else {
-            setTimeout(function() { done(demoHolidays()); }, 300);
-        }
+        fetchData('getHolidays', 'holidays', { force: force, clearFn: 'clearHolidayCache', demo: demoHolidays }, done, function(err) {
+            btn.disabled = false; holLoading = false;
+            console.warn('[Holiday] โหลดวันหยุดไม่สำเร็จ:', err);
+            document.getElementById('hv-content').innerHTML = '<div class="hv-card hv-empty">โหลดวันหยุดไม่สำเร็จ: ' + esc(err) + '</div>';
+        });
     }
 
     function openHolidayView() {
