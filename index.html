@@ -1095,6 +1095,121 @@ body:not(.theme-light) #clock-analog div:last-child {
             .gr-bubble::before { left: 50%; top: -6px; margin: 0 0 0 -6px; border: 6px solid transparent; border-top: 0; border-bottom-color: #fff; }
         }
         @media (prefers-reduced-motion: reduce) { #greeter.enter .mz, #greeter.hop .mz, .gr-badge::after { animation: none; } .gr-bubble { transition: opacity .2s; } }
+
+        /* ═══════════════════════════════════════════════════════════
+           LIGHT SKY THEME — ธีมสว่างฟ้าอ่อน (ชุดเดียวกับแอป OT / ลา / Hub)
+           ใช้ธีมเดียว ไม่มีปุ่มสลับธีม
+           ═══════════════════════════════════════════════════════════ */
+        :root {
+            --sky-50:#f0f8fe; --sky-100:#e3f4fd; --sky-200:#bfe4f8; --sky-300:#7cc8f2;
+            --sky-400:#2ab8f5; --sky-500:#1aa3e8; --sky-600:#0d7fc2; --sky-700:#0c6ea8; --navy:#08395e;
+            --ink:#0f2b40; --ink-2:#557084; --ink-3:#94a8b8; --line:#e3edf5;
+        }
+        html body, html body.theme-light { background: var(--sky-50) !important; }
+
+        /* Header */
+        html body.theme-light #app-header { background: rgba(255,255,255,0.92) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 1px 0 var(--line), 0 6px 24px -12px rgba(8,57,94,0.18) !important; }
+        html body.theme-light #app-header::after { background: linear-gradient(90deg, transparent, rgba(42,184,245,0.35), rgba(13,127,194,0.5), rgba(42,184,245,0.35), transparent) !important; }
+        html body.theme-light #header-left { border-right-color: var(--line) !important; }
+        html body.theme-light #sidebar-toggle span { background: var(--navy) !important; }
+        html body.theme-light #sidebar-toggle:hover { background: var(--sky-100) !important; }
+        #logo-area .logo-icon { background: linear-gradient(135deg, var(--sky-400), var(--sky-600)) !important;
+            box-shadow: 0 4px 12px -2px rgba(13,127,194,0.45), inset 0 1px 0 rgba(255,255,255,0.35) !important; letter-spacing: 0.02em; }
+        html body.theme-light #logo-area h1 { color: var(--navy) !important; }
+        html body.theme-light #booking-btn, html body.theme-light #manager-btn, html body.theme-light #meeting-btn, html body.theme-light #holiday-btn { color: var(--sky-700) !important; }
+        html body.theme-light #booking-btn:hover, html body.theme-light #manager-btn:hover, html body.theme-light #meeting-btn:hover, html body.theme-light #holiday-btn:hover { background: var(--sky-100) !important; color: var(--navy) !important; }
+        html body.theme-light #booking-btn.active-btn, html body.theme-light #manager-btn.active-btn, html body.theme-light #meeting-btn.active-btn, html body.theme-light #holiday-btn.active-btn {
+            background: var(--sky-100) !important; color: var(--navy) !important; box-shadow: inset 0 0 0 1px var(--sky-200); }
+        html body.theme-light #zoom-controls { background: var(--sky-50) !important; border-color: var(--line) !important; }
+        html body.theme-light #zoom-controls button { color: var(--sky-700) !important; }
+        html body.theme-light #zoom-controls button.active-zoom { background: #fff !important; color: var(--navy) !important; box-shadow: 0 1px 4px rgba(8,57,94,0.12) !important; }
+        html body.theme-light #fullscreen-btn { background: var(--sky-50) !important; border-color: var(--line) !important; color: var(--sky-600) !important; }
+        html body.theme-light #fullscreen-btn:hover { background: var(--sky-100) !important; color: var(--navy) !important; }
+        #theme-toggle { display: none !important; }
+
+        /* Sidebar */
+        html body.theme-light #sidebar { background: #fbfdff !important; border-right: 1px solid var(--line) !important; }
+        html body.theme-light #sidebar-head { border-bottom-color: var(--line) !important; }
+        html body.theme-light #sidebar-head .menu-label { color: var(--sky-600) !important; }
+        html body.theme-light #refresh-btn { background: var(--sky-50) !important; color: var(--sky-600) !important; }
+        html body.theme-light #refresh-btn:hover { background: var(--sky-100) !important; color: var(--navy) !important; }
+        #sidebar-nav { scrollbar-color: var(--sky-200) transparent !important; }
+        #sidebar-nav::-webkit-scrollbar-thumb { background: var(--sky-200) !important; }
+
+        /* หมวดเมนู: ไอคอนโทนฟ้าเดียวกัน — หมวดที่กำลังใช้เป็นไอคอนทึบ */
+        .cat-icon { background: var(--sky-100) !important; box-shadow: inset 0 0 0 1px var(--sky-200); }
+        .cat-icon svg { stroke: var(--sky-600) !important; }
+        .cat-group:has(.nav-item.active) > .cat-toggle .cat-icon,
+        .cat-group.open > .cat-toggle .cat-icon { background: linear-gradient(135deg, var(--sky-400), var(--sky-600)) !important; box-shadow: 0 4px 10px -3px rgba(13,127,194,0.5); }
+        .cat-group:has(.nav-item.active) > .cat-toggle .cat-icon svg,
+        .cat-group.open > .cat-toggle .cat-icon svg { stroke: #fff !important; }
+        html body.theme-light .cat-toggle { background: transparent !important; }
+        html body.theme-light .cat-info .cat-name { color: var(--navy) !important; }
+        html body.theme-light .cat-info .cat-sub { color: var(--ink-3) !important; }
+        html body.theme-light .cat-arrow { color: var(--ink-3) !important; }
+        html body.theme-light .cat-toggle:hover { background: var(--sky-50) !important; box-shadow: none !important; }
+        html body.theme-light .cat-group:has(.nav-item.active) > .cat-toggle { background: var(--sky-50) !important; box-shadow: inset 0 0 0 1px var(--sky-100) !important; }
+        html body.theme-light .cat-toggle:hover .cat-info .cat-name, html body.theme-light .cat-group:has(.nav-item.active) > .cat-toggle .cat-info .cat-name { color: var(--navy) !important; }
+        html body.theme-light .cat-toggle:hover .cat-info .cat-sub, html body.theme-light .cat-group:has(.nav-item.active) > .cat-toggle .cat-info .cat-sub { color: var(--ink-2) !important; }
+        html body.theme-light .cat-toggle:hover .cat-arrow, html body.theme-light .cat-group:has(.nav-item.active) > .cat-toggle .cat-arrow { color: var(--sky-500) !important; }
+        html body.theme-light .cat-toggle:hover .cat-icon { filter: none; }
+
+        /* รายการเมนู */
+        .cat-items { padding-left: 14px !important; margin-left: 15px; border-left: 1.5px solid var(--sky-100); }
+        html body.theme-light .nav-item { border-color: transparent !important; box-shadow: none !important; }
+        html body.theme-light .nav-item-text { color: var(--ink-2) !important; }
+        html body.theme-light .nav-item-dot { background: var(--sky-200) !important; box-shadow: none !important; }
+        html body.theme-light .nav-item:hover { background: var(--sky-50) !important; transform: translateX(2px); }
+        html body.theme-light .nav-item:hover .nav-item-text { color: var(--navy) !important; }
+        html body.theme-light .nav-item:hover .nav-item-dot { background: var(--sky-400) !important; box-shadow: none !important; }
+        html body.theme-light .nav-item.active { background: var(--sky-100) !important; border-color: var(--sky-200) !important; }
+        html body.theme-light .nav-item.active .nav-item-text { color: var(--navy) !important; font-weight: 600 !important; }
+        html body.theme-light .nav-item.active .nav-item-dot { background: var(--sky-500) !important; box-shadow: 0 0 0 3px rgba(26,163,232,0.18) !important; }
+        html body.theme-light .nav-item.active::before { background: var(--sky-500) !important; box-shadow: none !important; left: -15.5px; top: 22%; bottom: 22%; }
+        #cat-other .cat-toggle { background: transparent !important; }
+        html body.theme-light.sidebar-collapsed .cat-toggle::after { background: #fff !important; color: var(--navy) !important; border-color: var(--line) !important; box-shadow: 0 6px 18px -6px rgba(8,57,94,0.25); }
+        html body.theme-light.sidebar-collapsed .cat-items { border-left: 0; margin-left: 0; }
+        #sidebar-backdrop { background: rgba(8,57,94,0.22) !important; }
+
+        /* พื้นที่หลัก + หน้าต้อนรับ */
+        html body.theme-light #main-area { background: var(--sky-50) !important; }
+        html body.theme-light .slide-1-bg { background:
+            radial-gradient(900px 520px at 18% 18%, rgba(191,228,248,0.75), transparent 62%),
+            radial-gradient(760px 520px at 88% 92%, rgba(124,200,242,0.35), transparent 60%),
+            linear-gradient(160deg, #f7fbfe 0%, #eaf6fd 55%, #e1f2fc 100%) !important; }
+        html body.theme-light .slide-1-bg::before { background-image: radial-gradient(circle, rgba(13,127,194,0.10) 1.2px, transparent 1.3px) !important; background-size: 26px 26px !important; }
+        html body.theme-light .slide-1-bg::after { background:
+            radial-gradient(closest-side, rgba(255,255,255,0.9), transparent) 50% 46% / 70% 60% no-repeat !important; }
+        html body.theme-light .slide-1-bg h1 { color: var(--navy) !important; text-shadow: 0 2px 0 #fff, 0 12px 40px rgba(13,127,194,0.18) !important; }
+        html body.theme-light .slide-1-bg h1 span { color: var(--sky-600); -webkit-text-fill-color: var(--sky-600); }
+        /* คำว่า GIANT เป็นสีฟ้าไล่เฉด */
+        html body.theme-light .slide-1-bg h1 {
+            background: linear-gradient(120deg, #2ab8f5 0%, #1aa3e8 35%, #0d7fc2 70%, #0c6ea8 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent; color: #1aa3e8 !important;
+            text-shadow: none !important; filter: drop-shadow(0 10px 26px rgba(13,127,194,0.22));
+        }
+        html body.theme-light .slide-1-bg p { color: var(--ink-2) !important; }
+        html body.theme-light .slide-1-bg p > span { background: #fff !important; border-color: var(--sky-200) !important; color: var(--sky-600) !important; box-shadow: 0 2px 8px -2px rgba(13,127,194,0.25); }
+        html body.theme-light .slide-1-bg .bg-gradient-to-r { background: linear-gradient(90deg, transparent, var(--sky-400), transparent) !important; opacity: 0.7 !important; }
+        html body.theme-light .slide-1-bg p.delay-400 { color: var(--ink-3) !important; }
+
+        /* นาฬิกา */
+        html body.theme-light #clock-wrap { background: rgba(255,255,255,0.88) !important; border-color: var(--sky-200) !important; box-shadow: 0 10px 30px -14px rgba(8,57,94,0.35) !important; }
+        html body.theme-light #live-date { color: var(--ink-2) !important; }
+        html body.theme-light #live-time { color: var(--navy) !important; }
+        html body.theme-light #clock-analog { border-color: var(--sky-300) !important; background: var(--sky-50) !important; }
+        html body.theme-light #clock-analog div { background: var(--navy) !important; }
+        html body.theme-light #sh, html body.theme-light #clock-analog div:last-child { background: #ef4444 !important; }
+
+        /* อื่นๆ */
+        #toast { background: #fff !important; color: var(--navy) !important; border: 1px solid var(--sky-200) !important; box-shadow: 0 12px 30px -10px rgba(8,57,94,0.35) !important; }
+        #toast svg { color: #16a34a; }
+        #main-loader { color: var(--sky-600) !important; }
+        .full-modal { background: rgba(8,57,94,0.35) !important; }
+        .news-chip.active { background: var(--sky-600) !important; border-color: var(--sky-600) !important; }
+        .news-count { background: var(--sky-600) !important; }
     </style>
 </head>
 <body>
@@ -1141,10 +1256,6 @@ body:not(.theme-light) #clock-analog div:last-child {
             <button id="zoom100" data-zoom="normal" class="active-zoom">100%</button>
         </div>
 
-        <button id="theme-toggle" title="เปลี่ยนธีม">
-            <svg id="icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <svg id="icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"/></svg>
-        </button>
         <button id="fullscreen-btn" title="เต็มจอ">
             <svg id="fs-expand" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m0 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5h-4m0 0v-4m0 4l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <svg id="fs-compress" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1415,12 +1526,12 @@ body:not(.theme-light) #clock-analog div:last-child {
         </div>
 
         <div class="cat-group" id="cat-other">
-            <button class="cat-toggle" data-tooltip="อื่นๆ" style="background:rgba(234,179,8,0.05);border-radius:10px;">
+            <button class="cat-toggle" data-tooltip="อื่นๆ">
                 <div class="cat-icon" style="background:linear-gradient(135deg,#eab308,#ca8a04)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 </div>
                 <div class="cat-info">
-                    <span class="cat-name" style="color:#fde68a">ฟังก์ชันอื่นๆ</span>
+                    <span class="cat-name">ฟังก์ชันอื่นๆ</span>
                     <span class="cat-sub">เครื่องมือเพิ่มเติม</span>
                 </div>
                 <svg class="cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1753,20 +1864,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (IS_MOBILE()) closeSidebar();
     });
 
-    var themeToggle = document.getElementById('theme-toggle');
-    var iconDark = document.getElementById('icon-dark');
-    var iconLight = document.getElementById('icon-light');
-    // ธีมขาวเป็นค่าเริ่มต้น — เปลี่ยนชื่อคีย์เป็น v2 เพื่อให้ทุกเครื่องเริ่มที่ธีมขาว 1 ครั้ง แล้วค่อยจำค่าที่ผู้ใช้เลือกเอง
-    var THEME_KEY = 'gih-theme-v2';
-    function applyTheme(theme) {
-        if (theme === 'light') { document.body.classList.add('theme-light'); iconDark.style.display = 'none'; iconLight.style.display = 'block'; themeToggle.title = 'เปลี่ยนเป็นธีมเข้ม'; }
-        else { document.body.classList.remove('theme-light'); iconDark.style.display = 'block'; iconLight.style.display = 'none'; themeToggle.title = 'เปลี่ยนเป็นธีมสว่าง'; }
-        try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
-    }
-    themeToggle.addEventListener('click', function() { applyTheme(document.body.classList.contains('theme-light') ? 'dark' : 'light'); });
-    var savedTheme = null;
-    try { savedTheme = localStorage.getItem(THEME_KEY); localStorage.removeItem('gih-theme'); } catch (e) {}
-    applyTheme(savedTheme || 'light');
+    // ธีมสว่างฟ้าอ่อนแบบเดียว (เอาปุ่มสลับธีมออกแล้ว)
+    document.body.classList.add('theme-light');
+    try { localStorage.removeItem('gih-theme-v2'); localStorage.removeItem('gih-theme'); } catch (e) {}
 
     var DAYS_TH = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
     var MONTHS_TH = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
@@ -1777,7 +1877,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (var i = 0; i < 60; i++) {
             var t = document.createElement('div');
             var isMajor = i % 5 === 0;
-            t.style.cssText = 'position:absolute;left:50%;border-radius:1px;transform-origin:50% ' + (isMajor ? '19.5px' : '19px') + ';transform:rotate(' + (i*6) + 'deg);margin-left:' + (isMajor ? '-1px' : '-0.75px') + ';' + (isMajor ? 'top:2.5px;width:2px;height:5.5px;background:rgba(255,255,255,0.85);' : 'top:3px;width:1.5px;height:4px;background:rgba(255,255,255,0.5);');
+            t.style.cssText = 'position:absolute;left:50%;border-radius:1px;transform-origin:50% ' + (isMajor ? '19.5px' : '19px') + ';transform:rotate(' + (i*6) + 'deg);margin-left:' + (isMajor ? '-1px' : '-0.75px') + ';' + (isMajor ? 'top:2.5px;width:2px;height:5.5px;background:rgba(8,57,94,0.85);' : 'top:3px;width:1.5px;height:4px;background:rgba(8,57,94,0.35);');
             analog.appendChild(t);
         }
         var hands = [
