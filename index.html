@@ -953,8 +953,6 @@ body:not(.theme-light) #clock-analog div:last-child {
         .hv-tag.long { background: #fef3c7; color: #92400e; }
         .hv-empty { padding: 36px 18px; text-align: center; color: #94a8b8; font-size: 0.8rem; }
         .hv-loading { padding: 80px 0; text-align: center; color: #6b8193; font-size: 0.85rem; }
-        .hv-spin { width: 26px; height: 26px; border: 3px solid #d6e6f2; border-top-color: #0d7fc2; border-radius: 50%; animation: hv-rot 0.8s linear infinite; margin: 0 auto 12px; }
-        @keyframes hv-rot { to { transform: rotate(360deg); } }
 
         .hv-long { padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; }
         .hv-long-i { display: flex; align-items: center; gap: 12px; }
@@ -1032,6 +1030,33 @@ body:not(.theme-light) #clock-analog div:last-child {
             .mz-soon .spark, .mz-tomorrow .confetti, .mz-today .zzz { opacity: 1; }
         }
         @media (max-width: 560px) { .mz { width: 96px; margin-right: -4px; } }
+
+        /* ─── LOADING MASCOT — ใช้เมฆน้อยแทน spinner เดิม ─── */
+        #main-loader {
+            position: absolute; inset: 0; z-index: 20;
+            display: none; align-items: center; justify-content: center; flex-direction: column;
+            gap: 8px; background: linear-gradient(160deg, rgba(247,251,254,.97), rgba(225,242,252,.97));
+            color: #0d7fc2; font-weight: 500; text-align: center;
+        }
+        .loading-mascot { display: flex; flex-direction: column; align-items: center; gap: 7px; }
+        .loading-mascot .mz { width: 144px; margin: 0; cursor: default; }
+        .loading-mascot .mz-bubble {
+            top: -7px; right: 78px; opacity: 1; transform: none;
+            font-size: .7rem; padding: 4px 10px;
+        }
+        .loading-mascot-text { font-size: .84rem; letter-spacing: .03em; color: #557084; }
+        .loading-dots { display: inline-block; width: 1.15em; overflow: hidden; vertical-align: bottom; animation: loading-dots 1.4s steps(4, end) infinite; }
+        .loading-dots::after { content: '...'; }
+        @keyframes loading-dots { from { width: 0; } to { width: 1.15em; } }
+        .hv-loading-mascot { padding: 58px 0 66px; }
+        .hv-loading-mascot .mz { width: 126px; margin: 0 auto 4px; cursor: default; }
+        .hv-loading-mascot .mz-bubble { top: -8px; right: 66px; opacity: 1; transform: none; }
+
+        @media (max-width: 560px) {
+            .loading-mascot .mz { width: 122px; }
+            .loading-mascot .mz-bubble { right: 66px; }
+        }
+        @media (prefers-reduced-motion: reduce) { .loading-dots { width: 1.15em; animation: none; } }
 
         /* ═══════════════════════════════════════════
            GREETER — เมฆน้อยผู้ช่วยต้อนรับหน้าหลัก
@@ -1299,6 +1324,42 @@ body:not(.theme-light) #clock-analog div:last-child {
                 
             </div>
         </div>
+        <div class="cat-group" id="cat-general">
+            <button class="cat-toggle" data-tooltip="General">
+                <div class="cat-icon" style="background:linear-gradient(135deg,#64748b,#475569)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                </div>
+                <div class="cat-info">
+                    <span class="cat-name">Print Tag</span>
+                    <span class="cat-sub">Web print label</span>
+                </div>
+                <svg class="cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="cat-items">
+                <button class="nav-item lazy-frame" data-src="https://script.google.com/macros/s/AKfycbw7LosY_iGgXoo3BGyFjgK4SuFuwPb2JUVMIgEnseRm11iXpHIG4NMTlRZSWuAWEfMH2A/exec">
+                    <span class="nav-item-dot"></span><span class="nav-item-text">Master</span>
+                </button>
+                
+            </div>
+            <div class="cat-items">
+                <button class="nav-item lazy-frame" data-src="https://script.google.com/macros/s/AKfycby0vY0n_wJ8hV40SRa3eMcuHqI43g_Nxn5pKCtJ9YmfwnauF0tDjTGRqiuWeQTFMqAl/exec">
+                    <span class="nav-item-dot"></span><span class="nav-item-text">General</span>
+                </button>
+                
+            </div>
+            <div class="cat-items">
+                <button class="nav-item lazy-frame" data-src="https://script.google.com/macros/s/AKfycbxnacqzjCB4SAN1zhNNgxQrsr-pNtHPpMO33opvY4GNApimnu8tyxemswOBXqC3JBn3rw/exec">
+                    <span class="nav-item-dot"></span><span class="nav-item-text">Haier</span>
+                </button>
+                
+            </div>
+            <div class="cat-items">
+                <button class="nav-item lazy-frame" data-src="https://script.google.com/macros/s/AKfycbzwsinoQl_J-UUbUGFY5jiy3DJbBNYV9i_EKD2tve9HHvgXoBVOHDbKXE8X2-sqeyDBVw/exec">
+                    <span class="nav-item-dot"></span><span class="nav-item-text">Trad</span>
+                </button>
+                
+            </div>
+        </div>
         <div class="cat-group" id="cat-dev-mode">
             <button class="cat-toggle" data-tooltip="Dev Mode">
                 <div class="cat-icon" style="background:linear-gradient(135deg,#a855f7,#ec4899)">
@@ -1346,7 +1407,7 @@ body:not(.theme-light) #clock-analog div:last-child {
             </button>
             <div class="cat-items">
                 <button class="nav-item" data-src="https://r10-1-stock-system.giant-it.workers.dev/"><span class="nav-item-dot"></span><span class="nav-item-text">Material-R10/1</span></button>
-                <button class="nav-item" data-src="https://script.google.com/a/macros/giantinterholding.co.th/s/AKfycbyn-tb3v5dJtqO9He7Qhaw2AN0rA2TCedngzk3wta33ZBebIfpq-z9TNkJPtENPTLWK/exec"><span class="nav-item-dot"></span><span class="nav-item-text">FG (Converter)-R11</span></button>
+                <button class="nav-item" data-src="https://r11-stock-system.giant-it.workers.dev/"><span class="nav-item-dot"></span><span class="nav-item-text">FG (Converter)-R11</span></button>
                 <button class="nav-item" data-src="https://r12-stock-system.giant-it.workers.dev/"><span class="nav-item-dot"></span><span class="nav-item-text">FG (Converter)-R12</span></button>
                 <button class="nav-item" data-src="https://r9-stock-system.giant-it.workers.dev/"><span class="nav-item-dot"></span><span class="nav-item-text">FG (Injection) R9</span></button>
                 <button class="nav-item" data-src="https://wip-stock-system.giant-it.workers.dev/"><span class="nav-item-dot"></span><span class="nav-item-text">Stock-WIP</span></button>
@@ -1392,14 +1453,6 @@ body:not(.theme-light) #clock-analog div:last-child {
             </button>
             <div class="cat-items">
                 <button class="nav-item" data-src="https://script.google.com/macros/s/AKfycbyIKd5xsQOI68nEBwvD7MkXNo8U6GOuH2uRMM_-s2E9ToiHRLqvtk4SUEYB-gbQipYK/exec"><span class="nav-item-dot"></span><span class="nav-item-text">Planning Tag</span></button>
-                <button class="nav-item" data-src="https://script.google.com/macros/s/AKfycbw7LosY_iGgXoo3BGyFjgK4SuFuwPb2JUVMIgEnseRm11iXpHIG4NMTlRZSWuAWEfMH2A/exec"><span class="nav-item-dot"></span><span class="nav-item-text">Tag Master</span></button>
-                <button class="nav-item" data-src="https://script.google.com/macros/s/AKfycbzwsinoQl_J-UUbUGFY5jiy3DJbBNYV9i_EKD2tve9HHvgXoBVOHDbKXE8X2-sqeyDBVw/exec"><span class="nav-item-dot"></span><span class="nav-item-text">Tag Trad</span></button>
-                <button class="nav-item" data-src="https://script.google.com/macros/s/AKfycbx5fcffGAa4FPA3f3ZmHJQwG2ElzJHzN2TU_7tNs_86Juj29BnU-LiOH-0zXUcl_pKg/exec">
-                    <span class="nav-item-dot"></span><span class="nav-item-text">Tag General</span>
-                </button>
-                <button class="nav-item" data-src="https://script.google.com/macros/s/AKfycbxnacqzjCB4SAN1zhNNgxQrsr-pNtHPpMO33opvY4GNApimnu8tyxemswOBXqC3JBn3rw/exec">
-                    <span class="nav-item-dot"></span><span class="nav-item-text">Tag Haier 🇨🇳</span>
-                </button>
                 <button class="nav-item" data-src="https://script.google.com/macros/s/AKfycbynThHYzuraHIZCxfjTcYAglysvdIvnoLAmw9JdYHpwqTaZC4QZcGid01w1abGZDzE6/exec"><span class="nav-item-dot"></span><span class="nav-item-text">Production Tracker</span></button>
             </div>
         </div>
@@ -1496,19 +1549,6 @@ body:not(.theme-light) #clock-analog div:last-child {
             </div>
         </div>
 
-        <div class="cat-group" id="cat-dev-mode">
-            <button class="cat-toggle" data-tooltip="Dev Mode">
-                <div class="cat-icon" style="background:linear-gradient(135deg,#a855f7,#ec4899)">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
-                </div>
-                <div class="cat-info">
-                    <span class="cat-name">Dev Mode</span>
-                    <span class="cat-sub">โหมดนักพัฒนา</span>
-                </div>
-                <svg class="cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-        </div>
-        
         <div class="cat-group" id="cat-maintenance">
             <button class="cat-toggle" data-tooltip="Maintenance">
                 <div class="cat-icon" style="background:linear-gradient(135deg,#6b7280,#4b5563)">
@@ -1548,10 +1588,7 @@ body:not(.theme-light) #clock-analog div:last-child {
 
 <main id="main-area">
     <div id="content-area">
-        <div id="main-loader" style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:5; color:#7bbdd8; align-items:center; flex-direction:column; gap:12px; font-weight:500;">
-            <svg class="animate-spin" width="32" height="32" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-            <span style="font-size: 0.85rem; letter-spacing: 0.05em;">กำลังโหลดระบบ...</span>
-        </div>
+        <div id="main-loader" role="status" aria-live="polite" aria-label="กำลังโหลดระบบ"></div>
 
         <!-- ═══ HOLIDAY VIEW — ปฏิทินวันหยุดโรงงาน ═══ -->
         <section id="holiday-view" aria-label="ปฏิทินวันหยุดโรงงาน">
@@ -1571,7 +1608,7 @@ body:not(.theme-light) #clock-analog div:last-child {
                         <button class="hv-btn hv-close" id="hv-close" title="ปิด"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
                     </div>
                 </div>
-                <div id="hv-content"><div class="hv-loading"><div class="hv-spin"></div>กำลังโหลดวันหยุด...</div></div>
+                <div id="hv-content"></div>
             </div>
         </section>
 
@@ -1746,20 +1783,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    function preloadFrames() {
-        var toPreload = [];
-        document.querySelectorAll('.nav-item[data-src]').forEach(function(btn) {
-            if (btn.classList.contains('lazy-frame') || btn.closest('#cat-logistics') || btn.closest('#cat-it') || btn.closest('#cat-dev-mode') || btn.closest('#cat-inventory') || btn.textContent.includes('Historical Data') || btn.textContent.includes('ใบเบิก')) return;
-            var src = btn.dataset.src;
-            if (src && !iframeCache[src]) toPreload.push(src);
-        });
-        toPreload.forEach(function(src, index) {
-            setTimeout(function() {
-                if (!iframeCache[src]) { var iframe = document.createElement('iframe'); iframe.className = 'app-iframe'; iframe.src = src; contentArea.appendChild(iframe); iframeCache[src] = iframe; }
-            }, index * 800);
-        });
-    }
-
     function stopBookingFrame() {
         if (iframeCache[BOOKING_SRC]) { iframeCache[BOOKING_SRC].remove(); delete iframeCache[BOOKING_SRC]; }
         if (bookingBtn) bookingBtn.classList.remove('active-btn');
@@ -1778,6 +1801,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showWelcomeState() {
         hideHolidayView();
         if (typeof greeterOnWelcome === 'function') greeterOnWelcome();
+        setMainLoading(false);
         welcomeSlider.style.display = 'block';
         Object.values(iframeCache).forEach(function(f) { f.classList.remove('visible'); });
         document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
@@ -1791,13 +1815,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (src !== MEETING_SRC) stopMeetingFrame();
         welcomeSlider.style.display = 'none';
         Object.values(iframeCache).forEach(function(f) { f.classList.remove('visible'); });
-        var loader = document.getElementById('main-loader');
         if (!iframeCache[src]) {
-            if (loader) loader.style.display = 'flex';
+            setMainLoading(true);
             var iframe = document.createElement('iframe'); iframe.className = 'app-iframe'; iframe.src = src;
-            iframe.onload = function() { if (loader) loader.style.display = 'none'; };
+            iframe.onload = function() {
+                iframe.dataset.loaded = 'true';
+                if (iframe.classList.contains('visible')) setMainLoading(false);
+            };
             contentArea.appendChild(iframe); iframeCache[src] = iframe;
-        } else { if (loader) loader.style.display = 'none'; }
+        } else { setMainLoading(iframeCache[src].dataset.loaded !== 'true'); }
         iframeCache[src].classList.add('visible');
     }
 
@@ -1805,7 +1831,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ['booking-btn','manager-btn','meeting-btn','holiday-btn'].forEach(function(id) { var el = document.getElementById(id); if (el) el.classList.remove('active-btn'); });
     }
 
-    function resetToWelcome() { stopBookingFrame(); stopManagerFrame(); stopMeetingFrame(); showWelcomeState(); preloadFrames(); loadNews(); showToast(); }
+    function resetToWelcome() { stopBookingFrame(); stopManagerFrame(); stopMeetingFrame(); showWelcomeState(); loadNews(); showToast(); }
 
     document.querySelectorAll('.nav-item[data-src]').forEach(function(btn) {
         btn.addEventListener('click', function() {
@@ -1851,16 +1877,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     bookingBtn.addEventListener('click', function() {
-        var loader = document.getElementById('main-loader'); if (loader) loader.style.display = 'none';
         document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
-        stopManagerFrame();
-        stopMeetingFrame();
-        hideHolidayView();
         clearHeaderActive(); bookingBtn.classList.add('active-btn');
-        welcomeSlider.style.display = 'none';
-        Object.values(iframeCache).forEach(function(f) { f.classList.remove('visible'); });
-        if (!iframeCache[BOOKING_SRC]) { var iframe = document.createElement('iframe'); iframe.className = 'app-iframe'; iframe.src = BOOKING_SRC; contentArea.appendChild(iframe); iframeCache[BOOKING_SRC] = iframe; }
-        iframeCache[BOOKING_SRC].classList.add('visible');
+        showFrame(BOOKING_SRC);
         if (IS_MOBILE()) closeSidebar();
     });
 
@@ -2038,7 +2057,7 @@ document.addEventListener('DOMContentLoaded', function() {
          แบบเดียวกับเมนูอื่น ๆ) แล้วรับข่าว+วันหยุดกลับมาทาง postMessage
        • เปิดไฟล์ในเครื่อง (file://)      → ใช้ข้อมูลตัวอย่าง (DEMO) เพื่อทดสอบหน้าตาเท่านั้น
        ใส่ URL ของ Web App (ที่ลงท้ายด้วย /exec) ตรงนี้ ↓ */
-    var PORTAL_API_URL = 'https://script.google.com/a/macros/giantinterholding.co.th/s/AKfycbycFCUZJ_yrGOLSbXlxNq5YNymE3KIxgjoTtXyYUZxZXFeMySoEfpdSgvhx2RIqlJ3-/exec';
+    var PORTAL_API_URL = 'https://script.google.com/macros/s/AKfycbycFCUZJ_yrGOLSbXlxNq5YNymE3KIxgjoTtXyYUZxZXFeMySoEfpdSgvhx2RIqlJ3-/exec';
 
     var IN_GAS  = !!(window.google && google.script && google.script.run);
     var IS_FILE = location.protocol === 'file:';
@@ -2392,6 +2411,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (holLoading) return;
         holLoading = true;
         var btn = document.getElementById('hv-reload'); btn.disabled = true;
+        if (!holLoaded || force) document.getElementById('hv-content').innerHTML = loadingMascotHTML('กำลังโหลดวันหยุด');
         var done = function(list) { btn.disabled = false; applyHolidays(list); };
         fetchData('getHolidays', 'holidays', { force: force, clearFn: 'clearHolidayCache', demo: demoHolidays }, done, function(err) {
             btn.disabled = false; holLoading = false;
@@ -2405,7 +2425,7 @@ document.addEventListener('DOMContentLoaded', function() {
         stopBookingFrame(); stopManagerFrame(); stopMeetingFrame();
         clearHeaderActive(); holidayBtn.classList.add('active-btn');
         welcomeSlider.style.display = 'none';
-        var loader = document.getElementById('main-loader'); if (loader) loader.style.display = 'none';
+        setMainLoading(false);
         Object.values(iframeCache).forEach(function(f) { f.classList.remove('visible'); });
         holidayView.classList.add('show');
         holidayView.scrollTop = 0;
@@ -2481,6 +2501,27 @@ document.addEventListener('DOMContentLoaded', function() {
               '<text class="zzz" x="104" y="40" font-family="Kanit,sans-serif" font-size="12" font-weight="700" fill="#0d7fc2">z</text>' +
               '<text class="zzz" x="98" y="34" font-family="Kanit,sans-serif" font-size="9" font-weight="700" fill="#4dc3f7">z</text>' +
             '</svg></div>';
+    }
+
+    function loadingMascotHTML(text) {
+        return '<div class="hv-loading hv-loading-mascot">' +
+            mascotHTML('soon', [text + '...']) +
+            '<div class="loading-mascot-text"><span>' + esc(text) + '</span><span class="loading-dots"></span></div></div>';
+    }
+
+    function setMainLoading(show) {
+        var loader = document.getElementById('main-loader');
+        if (!loader) return;
+        if (show) {
+            loader.innerHTML = '<div class="loading-mascot">' +
+                mascotHTML('soon', ['กำลังเปิดระบบ...', 'รอแป๊บนะครับ']) +
+                '<div class="loading-mascot-text"><span>เมฆน้อยกำลังเตรียมหน้าให้คุณ</span><span class="loading-dots"></span></div></div>';
+            loader.style.display = 'flex';
+            loader.setAttribute('aria-busy', 'true');
+        } else {
+            loader.style.display = 'none';
+            loader.setAttribute('aria-busy', 'false');
+        }
     }
     // แตะ/คลิกตัวละคร → กระโดด + เปลี่ยนคำพูด
     function mascotClick(e) {
@@ -2664,7 +2705,6 @@ document.addEventListener('DOMContentLoaded', function() {
     loadNews();
     setInterval(function() { if (welcomeSlider.style.display !== 'none') { bridgePromise = null; loadNews(); } }, 5 * 60 * 1000);
 
-    preloadFrames();
 });
 </script>
 </body>
