@@ -857,6 +857,9 @@ body:not(.theme-light) #clock-analog div:last-child {
         #holiday-btn { background: transparent; color: rgba(255,255,255,0.85); border: none; }
         #holiday-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
         #holiday-btn.active-btn { background: rgba(255,255,255,0.18); color: #fff; font-weight: 600; }
+        #audit-btn { background: transparent; color: rgba(255,255,255,0.85); border: none; }
+        #audit-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+        #audit-btn.active-btn { background: rgba(255,255,255,0.18); color: #fff; font-weight: 600; }
         #holiday-btn .hb-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff6b6b; box-shadow: 0 0 0 2px rgba(255,107,107,0.25); display: none; }
         #holiday-btn.has-soon .hb-dot { display: inline-block; }
         body.theme-light #holiday-btn { color: var(--cb-header) !important; }
@@ -1142,9 +1145,9 @@ body:not(.theme-light) #clock-analog div:last-child {
         #logo-area .logo-icon { background: linear-gradient(135deg, var(--sky-400), var(--sky-600)) !important;
             box-shadow: 0 4px 12px -2px rgba(13,127,194,0.45), inset 0 1px 0 rgba(255,255,255,0.35) !important; letter-spacing: 0.02em; }
         html body.theme-light #logo-area h1 { color: var(--navy) !important; }
-        html body.theme-light #booking-btn, html body.theme-light #manager-btn, html body.theme-light #meeting-btn, html body.theme-light #holiday-btn { color: var(--sky-700) !important; }
-        html body.theme-light #booking-btn:hover, html body.theme-light #manager-btn:hover, html body.theme-light #meeting-btn:hover, html body.theme-light #holiday-btn:hover { background: var(--sky-100) !important; color: var(--navy) !important; }
-        html body.theme-light #booking-btn.active-btn, html body.theme-light #manager-btn.active-btn, html body.theme-light #meeting-btn.active-btn, html body.theme-light #holiday-btn.active-btn {
+        html body.theme-light #booking-btn, html body.theme-light #manager-btn, html body.theme-light #meeting-btn, html body.theme-light #holiday-btn, html body.theme-light #audit-btn { color: var(--sky-700) !important; }
+        html body.theme-light #booking-btn:hover, html body.theme-light #manager-btn:hover, html body.theme-light #meeting-btn:hover, html body.theme-light #holiday-btn:hover, html body.theme-light #audit-btn:hover { background: var(--sky-100) !important; color: var(--navy) !important; }
+        html body.theme-light #booking-btn.active-btn, html body.theme-light #manager-btn.active-btn, html body.theme-light #meeting-btn.active-btn, html body.theme-light #holiday-btn.active-btn, html body.theme-light #audit-btn.active-btn {
             background: var(--sky-100) !important; color: var(--navy) !important; box-shadow: inset 0 0 0 1px var(--sky-200); }
         html body.theme-light #zoom-controls { background: var(--sky-50) !important; border-color: var(--line) !important; }
         html body.theme-light #zoom-controls button { color: var(--sky-700) !important; }
@@ -1275,6 +1278,11 @@ body:not(.theme-light) #clock-analog div:last-child {
             <span>วันหยุด</span><i class="hb-dot"></i>
         </button>
 
+        <button id="audit-btn" class="header-action-btn" title="ปฏิทินออดิตลูกค้า (DC)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1z"/><path d="M8 5H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="m9 14 2 2 4-4"/></svg>
+            <span>ออดิต</span>
+        </button>
+
         <div id="zoom-controls">
             <button id="zoom65" data-zoom="super">65%</button>
             <button id="zoom80" data-zoom="compact">80%</button>
@@ -1340,7 +1348,14 @@ body:not(.theme-light) #clock-analog div:last-child {
                     <span class="cat-sub">Web print label</span>
                 </div>
                 <svg class="cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                
             </button>
+            <div class="cat-items">
+                <button class="nav-item lazy-frame" data-src="https://script.google.com/macros/s/AKfycbyIKd5xsQOI68nEBwvD7MkXNo8U6GOuH2uRMM_-s2E9ToiHRLqvtk4SUEYB-gbQipYK/exec">
+                    <span class="nav-item-dot"></span><span class="nav-item-text">Planning Tag</span>
+                </button>
+                
+            </div>
             <div class="cat-items">
                 <button class="nav-item lazy-frame" data-src="https://script.google.com/macros/s/AKfycbw7LosY_iGgXoo3BGyFjgK4SuFuwPb2JUVMIgEnseRm11iXpHIG4NMTlRZSWuAWEfMH2A/exec">
                     <span class="nav-item-dot"></span><span class="nav-item-text">Master</span>
@@ -1362,6 +1377,12 @@ body:not(.theme-light) #clock-analog div:last-child {
             <div class="cat-items">
                 <button class="nav-item lazy-frame" data-src="https://script.google.com/macros/s/AKfycbzwsinoQl_J-UUbUGFY5jiy3DJbBNYV9i_EKD2tve9HHvgXoBVOHDbKXE8X2-sqeyDBVw/exec">
                     <span class="nav-item-dot"></span><span class="nav-item-text">Trad</span>
+                </button>
+                
+            </div>
+            <div class="cat-items">
+                <button class="nav-item lazy-frame" data-src="https://script.google.com/macros/s/AKfycbzTEMRanxlAKF3VzYy61ynlq5PFwRsKXj5oAE39vwFfqQtBmFuXuytQMBkywxPWkpb30g/exec">
+                    <span class="nav-item-dot"></span><span class="nav-item-text">Report Tag</span>
                 </button>
                 
             </div>
@@ -1458,7 +1479,6 @@ body:not(.theme-light) #clock-analog div:last-child {
                 <svg class="cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <div class="cat-items">
-                <button class="nav-item" data-src="https://script.google.com/macros/s/AKfycbyIKd5xsQOI68nEBwvD7MkXNo8U6GOuH2uRMM_-s2E9ToiHRLqvtk4SUEYB-gbQipYK/exec"><span class="nav-item-dot"></span><span class="nav-item-text">Planning Tag</span></button>
                 <button class="nav-item" data-src="https://script.google.com/macros/s/AKfycbynThHYzuraHIZCxfjTcYAglysvdIvnoLAmw9JdYHpwqTaZC4QZcGid01w1abGZDzE6/exec"><span class="nav-item-dot"></span><span class="nav-item-text">Production Tracker</span></button>
             </div>
         </div>
@@ -1781,6 +1801,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var bookingBtn = document.getElementById('booking-btn');
     var managerBtn = document.getElementById('manager-btn');
     var meetingBtn = document.getElementById('meeting-btn');
+    var AUDIT_SRC = 'https://script.google.com/a/macros/giantinterholding.co.th/s/AKfycby8ZTMeOBzid5kJNwMqHBCm4Z6JT6ui3t_YRR75ZNsy6Xo6s27PWbvBPknwbwhZKAWD/exec';
+    var auditBtn = document.getElementById('audit-btn');
 
     document.querySelectorAll('.cat-toggle').forEach(function(toggle) {
         toggle.addEventListener('click', function() {
@@ -1834,7 +1856,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function clearHeaderActive() {
-        ['booking-btn','manager-btn','meeting-btn','holiday-btn'].forEach(function(id) { var el = document.getElementById(id); if (el) el.classList.remove('active-btn'); });
+        ['booking-btn','manager-btn','meeting-btn','holiday-btn','audit-btn'].forEach(function(id) { var el = document.getElementById(id); if (el) el.classList.remove('active-btn'); });
     }
 
     function resetToWelcome() { stopBookingFrame(); stopManagerFrame(); stopMeetingFrame(); showWelcomeState(); loadNews(); showToast(); }
@@ -1879,6 +1901,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
         clearHeaderActive(); meetingBtn.classList.add('active-btn');
         showFrame(MEETING_SRC);
+        if (IS_MOBILE()) closeSidebar();
+    });
+
+    // ปฏิทินออดิต DC — เก็บ iframe ไว้ (ไม่ลบทิ้ง) กลับมาเปิดซ้ำจะขึ้นทันที
+    auditBtn.addEventListener('click', function() {
+        document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
+        clearHeaderActive(); auditBtn.classList.add('active-btn');
+        showFrame(AUDIT_SRC);
         if (IS_MOBILE()) closeSidebar();
     });
 
